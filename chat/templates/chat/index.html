@@ -1491,23 +1491,23 @@
 
 
                         {% if messages %}
-                            {% for success_message in messages %}
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    {{success_message}}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
+                        {% for success_message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{success_message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
                         {% endif %}
 
                         {% if field in forms %}
-                            {% if field.errors%}
-                                {% for error_msg in field.errors %}
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        <strong>{{field.label_tag}}</strong>{{error_msg}}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                        {% if field.errors%}
+                        {% for error_msg in field.errors %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{field.label_tag}}</strong>{{error_msg}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                         {% endif %}
 
 
@@ -1552,7 +1552,8 @@
                                         <div class="error-message"></div>
                                         <div class="sent-message">Your message has been sent. Thank you!</div> -->
 
-                                        <button type="submit">Send Message</button>
+                                        <button type="submit" class="btn btn-success px-4 py-2">Send Message</button>
+
                                     </div>
 
                                 </div>
