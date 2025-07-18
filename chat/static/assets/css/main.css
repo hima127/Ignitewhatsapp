@@ -39,6 +39,40 @@
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
+.floating-buttons {
+  position: fixed;
+  right: 20px;
+  top: 82%; /* Adjust this to align with the bottom of your phone image */
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fab-button {
+  width: 50px;
+  height: 50px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+}
+
+.call-btn {
+  background-color: #007bff;
+}
+
+.fab-button:hover {
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+
 .light-background {
   --background-color: #f9f9f9;
   --surface-color: #ffffff;
