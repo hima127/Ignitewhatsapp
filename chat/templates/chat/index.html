@@ -1490,79 +1490,67 @@
 
 
 
-                        {% if messages %}
-                        {% for success_message in messages %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            {{success_message}}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-
-                        {% if field in forms %}
-                        {% if field.errors%}
-                        {% for error_msg in field.errors %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>{{field.label_tag}}</strong>{{error_msg}}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                        {% endif %}
-
-
-
-
                         <div class="col-lg-6">
+
+                            <!-- ✅ Success Messages -->
+                            {% if messages %}
+                            {% for success_message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ success_message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            <!-- ✅ Field Errors -->
+                            {% for field in form %}
+                            {% if field.errors %}
+                            {% for error_msg in field.errors %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>{{ field.label }}</strong>: {{ error_msg }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+
+                            <!-- ✅ Contact Form -->
                             <form action="" method="POST">
                                 {% csrf_token %}
-                                <!-- <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" -->
-                                <!-- data-aos-delay="200"> -->
                                 <div class="row gy-4">
-
                                     <div class="col-md-6">
                                         <input type="text" name="name" class="form-control" placeholder="Your Name"
-                                            required="" value="{{form.name.value|default:''}}">
+                                            required value="{{ form.name.value|default:'' }}">
                                     </div>
 
-                                    <div class="col-md-6 ">
+                                    <div class="col-md-6">
                                         <input type="email" class="form-control" name="email" placeholder="Your Email"
-                                            required="" value="{{form.name.value|default:''}}">
+                                            required value="{{ form.email.value|default:'' }}">
                                     </div>
-
 
                                     <div class="col-12">
                                         <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                            required="" value="{{form.name.value|default:''}}">
+                                            required value="{{ form.subject.value|default:'' }}">
                                     </div>
 
-
                                     <div class="col-12">
-                                        <input type="text" class="form-control" name="phoneno" placeholder="phone"
-                                            required="" value="{{form.name.value|default:''}}">
+                                        <input type="text" class="form-control" name="phoneno" placeholder="Phone"
+                                            required value="{{ form.phoneno.value|default:'' }}">
                                     </div>
 
                                     <div class="col-12">
                                         <textarea class="form-control" name="message" rows="6" placeholder="Message"
-                                            required="" value="{{form.name.value|default:''}}"></textarea>
+                                            required>{{ form.message.value|default:'' }}</textarea>
                                     </div>
 
                                     <div class="col-12 text-center">
-                                        <!-- <div class="loading">Loading</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Your message has been sent. Thank you!</div> -->
-
                                         <button type="submit" class="btn btn-success px-4 py-2">Send Message</button>
-
                                     </div>
-
                                 </div>
                             </form>
-                        </div><!-- End Contact Form -->
-
-                    </div>
-
-                </div>
+                        </div>
 
             </section><!-- /Contact Section -->
 
