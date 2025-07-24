@@ -1,4 +1,6 @@
 from django import forms
+from .models import Review
+from .models import JobApplication
 
 class ContactForm(forms.Form):
     name = forms.CharField(label="Name", max_length=100, required=True)
@@ -13,3 +15,17 @@ class ContactForm(forms.Form):
             "placeholder": "Enter your message here"
         })
     )
+
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['name', 'email', 'rating', 'comment']
+
+
+
+class JobApplicationForm(forms.ModelForm):
+    class Meta:
+        model = JobApplication
+        fields = ['name', 'email', 'resume']

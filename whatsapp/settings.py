@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -121,6 +122,11 @@ STATICFILES_DIRS = [
 ]
 
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -131,8 +137,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Looking to send emails in production? Check out our Email API/SMTP product!
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Looking to send emails in production? Check out our Email API/SMTP product!
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '0d3bfadf7cc39b'
-EMAIL_HOST_PASSWORD = 'c9582367a5dc7d'
+EMAIL_HOST_USER = 'd16a1404dd303e'
+EMAIL_HOST_PASSWORD = '8a2056efa35310'
 EMAIL_PORT = '2525'
 DEFAULT_FROM_EMAIL=EMAIL_HOST_USER
+

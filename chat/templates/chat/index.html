@@ -26,6 +26,9 @@
     <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+
 
     <!-- Main CSS File -->
     <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
@@ -990,15 +993,204 @@
             <!-- </section>/Portfolio Section -->
 
             <!-- Testimonials Section -->
-            <section id="testimonials" class="testimonials section">
+            <!-- Testimonials Section -->
+            <!-- Testimonials Section -->
+            <!-- Testimonials Section -->
 
-                <!-- Section Title -->
-                <div class="container section-title" data-aos="fade-up">
+            {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                {% if 'review' in message.tags %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <section id="testimonials" class="testimonials section-bg">
+                <div class="container text-center">
+
+
+                    <!-- Review Button -->
+                    <section class="mb-4">
+                        <button onclick="openReviewModal()" class="btn btn-primary">Write a Review</button>
+                    </section>
+
+                    <div class="section-header">
+                        <h2>Testimonials</h2>
+                        <p>Hear from our satisfied users</p>
+                    </div>
+
+                    <!-- Swiper Carousel -->
+                    <div class="swiper swiper-testimonials">
+                        <div class="swiper-wrapper">
+                            {% for review in reviews %}
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %} <i class="bi bi-star-fill"></i>
+                                            {% else %}
+                                            <i class="bi bi-star"></i>
+                                            {% endif %}
+                                            {% endfor %}
+                                    </div>
+                                    <p class="mt-3">“{{ review.comment }}”</p>
+                                    <h3 class="mt-2">{{ review.name }}</h3>
+                                    <h4 class="text-muted">{{ review.created_at|date:"F j, Y" }}</h4>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <p>No reviews yet. Be the first to write one!</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination mt-3"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review Modal -->
+            <div id="reviewModal">
+                <div class="review-modal-content">
+                    <span onclick="closeReviewModal()" class="review-modal-close">&times;</span>
+                    <h2 class="mb-3">Submit a Review</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ review_form.as_p }}
+                        <button type="submit" name="submit_review" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal CSS -->
+            <style>
+                #reviewModal {
+                    display: none;
+                    position: fixed;
+                    z-index: 1055;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgba(0, 0, 0, 0.6);
+                }
+
+                .review-modal-content {
+                    background-color: #fff;
+                    margin: 10% auto;
+                    padding: 30px;
+                    border-radius: 10px;
+                    width: 90%;
+                    max-width: 500px;
+                    position: relative;
+                    text-align: left;
+                    animation: fadeIn 0.3s ease-in-out;
+                }
+
+                .review-modal-close {
+                    color: #aaa;
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                    font-size: 28px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                .review-modal-close:hover,
+                .review-modal-close:focus {
+                    color: #000;
+                    text-decoration: none;
+                }
+
+                .testimonial-item {
+                    background: #fff;
+                    border-radius: 15px;
+                    padding: 30px;
+                    margin: 10px;
+                    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+                }
+
+                .testimonial-item p {
+                    font-style: italic;
+                    font-size: 16px;
+                }
+
+                .stars i {
+                    color: #ffc107;
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: scale(0.9);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+            </style>
+
+            <!-- Swiper Init Script -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Swiper Init
+                    var swiper = new Swiper('.swiper-testimonials', {
+                        loop: true,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        breakpoints: {
+                            0: { slidesPerView: 1, spaceBetween: 20 },
+                            768: { slidesPerView: 2, spaceBetween: 30 },
+                            1024: { slidesPerView: 3, spaceBetween: 40 },
+                        },
+                    });
+
+                    // Modal Functions
+                    window.openReviewModal = function () {
+                        document.getElementById("reviewModal").style.display = "block";
+                    }
+
+                    window.closeReviewModal = function () {
+                        document.getElementById("reviewModal").style.display = "none";
+                    }
+
+                    window.onclick = function (event) {
+                        var modal = document.getElementById("reviewModal");
+                        if (event.target === modal) {
+                            closeReviewModal();
+                        }
+                    }
+                });
+            </script>
+
+
+
+
+
+            <!-- Section Title -->
+            <!-- <div class="container section-title" data-aos="fade-up">
                     <h2>Testimonials</h2>
-                    <p>What they are saying about us<br></p>
-                </div><!-- End Section Title -->
+                    <p>What they are saying about us<br></p> -->
+            <!-- </div>End Section Title -->
 
-                <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <!-- <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                     <div class="swiper init-swiper">
                         <script type="application/json" class="swiper-config">
@@ -1048,10 +1240,10 @@
                                         <h3>Saul Goodman</h3>
                                         <h4>Ceo &amp; Founder</h4>
                                     </div>
-                                </div>
-                            </div><!-- End testimonial item -->
+                                </div> -->
+            <!-- </div>End testimonial item -->
 
-                            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
                                 <div class="testimonial-item">
                                     <div class="stars">
                                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -1070,11 +1262,11 @@
                                             alt="">
                                         <h3>Sara Wilsson</h3>
                                         <h4>Designer</h4>
-                                    </div>
-                                </div>
-                            </div><!-- End testimonial item -->
+                                    </div> -->
+            <!-- </div> -->
+            <!-- </div>End testimonial item -->
 
-                            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
                                 <div class="testimonial-item">
                                     <div class="stars">
                                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -1093,10 +1285,10 @@
                                         <h3>Jena Karlis</h3>
                                         <h4>Store Owner</h4>
                                     </div>
-                                </div>
-                            </div><!-- End testimonial item -->
+                                </div> -->
+            <!-- </div>End testimonial item -->
 
-                            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
                                 <div class="testimonial-item">
                                     <div class="stars">
                                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -1115,10 +1307,10 @@
                                         <h3>Matt Brandon</h3>
                                         <h4>Freelancer</h4>
                                     </div>
-                                </div>
-                            </div><!-- End testimonial item -->
+                                </div> -->
+            <!-- </div>End testimonial item -->
 
-                            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
                                 <div class="testimonial-item">
                                     <div class="stars">
                                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -1138,16 +1330,16 @@
                                         <h3>John Larson</h3>
                                         <h4>Entrepreneur</h4>
                                     </div>
-                                </div>
-                            </div><!-- End testimonial item -->
+                                </div> -->
+            <!-- </div>End testimonial item -->
 
-                        </div>
+            <!-- </div>
                         <div class="swiper-pagination"></div>
                     </div>
 
-                </div>
+                </div> -->
 
-            </section><!-- /Testimonials Section -->
+
 
             <!-- Team Section -->
             <!-- <section id="team" class="team section"> -->
@@ -1256,7 +1448,7 @@
             <!-- Clients Section -->
             <!-- <section id="clients" class="clients section">
 
-                <!-- Section Title -->
+                <-- Section Title -->
             <!-- <div class="container section-title" data-aos="fade-up">
                     <h2>Clients</h2>
                     <p>We work with best clients<br></p>
@@ -1504,19 +1696,20 @@
 
 
                         <div class="col-lg-6">
-
-                            <!-- ✅ Success Messages -->
+                            <!-- ✅ Contact Success Messages Only -->
                             {% if messages %}
-                            {% for success_message in messages %}
+                            {% for message in messages %}
+                            {% if 'contact' in message.tags %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ success_message }}
+                                {{ message }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                     aria-label="Close"></button>
                             </div>
+                            {% endif %}
                             {% endfor %}
                             {% endif %}
 
-                            <!-- ✅ Field Errors -->
+                            <!-- ✅ Contact Form Field Errors -->
                             {% for field in form %}
                             {% if field.errors %}
                             {% for error_msg in field.errors %}
@@ -1559,11 +1752,15 @@
                                     </div>
 
                                     <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-success px-4 py-2">Send Message</button>
+                                        <button type="submit" class="btn btn-success px-4 py-2"
+                                            name="submit_contact">Send Message</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
+
+
+                    </div>
 
             </section><!-- /Contact Section -->
 
@@ -1604,15 +1801,16 @@
                     </div>
                 </div>
 
-                <!-- <div class="col-lg-2 col-md-3 footer-links">
+                <div class="col-lg-2 col-md-3 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="{% url 'carriers' %}">Carriers</a></li>
                     </ul>
-                </div> -->
+                </div> 
 
                 <!-- <div class="col-lg-2 col-md-3 footer-links">
                     <h4>Our Services</h4>
@@ -1668,6 +1866,7 @@
     <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
     <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
 
     <!-- ✅ Your main JS -->
     <script src="{% static 'assets/js/main.js' %}"></script>
