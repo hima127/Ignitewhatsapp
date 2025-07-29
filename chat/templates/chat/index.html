@@ -1014,9 +1014,11 @@
 
 
                     <!-- Review Button -->
-                    <section class="mb-4">
+                    <!-- Review Button Right-Aligned -->
+                    <div class="d-flex justify-content-end mb-4">
                         <button onclick="openReviewModal()" class="btn btn-primary">Write a Review</button>
-                    </section>
+                    </div>
+
 
                     <div class="section-header">
                         <h2>Testimonials</h2>
@@ -1070,6 +1072,19 @@
 
             <!-- Modal CSS -->
             <style>
+                .whatsapp-review-btn {
+                    background-color: #25D366;
+                    border: none;
+                    color: white;
+                    font-weight: 500;
+                    transition: background-color 0.3s ease;
+                }
+
+                .whatsapp-review-btn:hover {
+                    background-color: #1ebe5b;
+                    color: white;
+                }
+
                 #reviewModal {
                     display: none;
                     position: fixed;
